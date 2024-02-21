@@ -34,5 +34,23 @@ def handle_patient_view_hook():
     }
     return jsonify(response)
 
+@app.route('/cds-services', methods=['GET'])
+def discovery():
+    services = {
+        "services": [
+            {
+                "hook": "patient-view",
+                "name": "Patient View Hook",
+                "description": "A CDS service that returns recommendations for the patient view.",
+                "id": "patient-view",
+                "prefetch": {
+                    "patientToGreet": "Patient/{{context.patientId}}"
+                }
+            }
+            # You can add more services here
+        ]
+    }
+    return jsonify(services)
+
 if __name__ == '__main__':
     app.run(debug=True)
